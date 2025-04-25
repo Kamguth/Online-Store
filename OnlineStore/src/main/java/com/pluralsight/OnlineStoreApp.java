@@ -2,6 +2,7 @@ package com.pluralsight;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -22,7 +23,7 @@ public class OnlineStoreApp {
             System.out.print("Enter Selection: ");
 
             int selection = keyboard.nextInt();
-            keyboard.nextLine(); // consume CRLF
+            keyboard.nextLine(); 
 
             switch (selection) {
                 case 1:
@@ -40,7 +41,8 @@ public class OnlineStoreApp {
     }
 
     public static HashMap<Integer, Product> getProduct() {
-        HashMap<Integer, Product> product = new HashMap<>();
+        ArrayList<Product> product = new ArrayList<Product>();
+
 
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/products.csv"))) {
             String file;
