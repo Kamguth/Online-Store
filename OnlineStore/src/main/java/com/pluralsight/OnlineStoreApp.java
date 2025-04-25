@@ -3,16 +3,16 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 
 public class OnlineStoreApp {
     public static void main(String[] args) {
-        HashMap<Integer, Product> products = getProduct();
+        ArrayList<Product> products = getProduct();
 
         Scanner keyboard = new Scanner(System.in);
         System.out.println("---Welcome to the Inventory Management System---\n");
+
 
         while (true) {
             System.out.println("Please choose from the following options\n");
@@ -23,13 +23,13 @@ public class OnlineStoreApp {
             System.out.print("Enter Selection: ");
 
             int selection = keyboard.nextInt();
-            keyboard.nextLine(); 
+            keyboard.nextLine();
 
             switch (selection) {
                 case 1:
                     System.out.println("\n--- Product List ---");
-                    for (Product p : products.values()) {
-                        System.out.println(p);
+                    for (Product p : products) {
+                        System.out.println(p.getSku() + "|" + p.getName() + "|" + p.getPrice() + "|" + p.getDepartment());
                     }
                     System.out.println();
                     break;
@@ -39,24 +39,53 @@ public class OnlineStoreApp {
             }
         }
     }
-
-    public static HashMap<Integer, Product> getProduct() {
-        ArrayList<Product> product = new ArrayList<Product>();
-
+    public static ArrayList<Product> getProduct() {
+        ArrayList<Product> productList = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/products.csv"))) {
-            String file;
-            while ((file = br.readLine()) != null) {
-                String[] parts = file.split("\\|");
+            br.readLine(); // skip header
+            String line;
 
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\\|");
+
+                if (parts.length < 4) continue;
+
+                String sku = parts[0];
+                String name = parts[1];
                 double price = Double.parseDouble(parts[2]);
+                String department = parts[3];
 
+                Product p = new Product(sku, name, price, department);
+                productList.add(p);
             }
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
 
-        return product;
+        return productList;
     }
-}
+   /* public static ArrayList<Product> getProduct() {
+        ArrayList<Product> product = new ArrayList<Product>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/products.csv"))) {
+            br.readLine();
+            String file;
+            while ((file = br.readLine()) != null) {
+                String[] parts = file.split("\\|");
+
+                String sku = parts[0];
+                String name = parts[1];
+                double price = Double.parseDouble(parts[2]);
+                String department = parts[3];
+
+                product.add(new Product(sku, name, price, department));
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+        return product;*/
+    }
+
 
