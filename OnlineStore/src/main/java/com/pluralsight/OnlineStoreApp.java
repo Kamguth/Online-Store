@@ -39,33 +39,9 @@ public class OnlineStoreApp {
             }
         }
     }
-    public static ArrayList<Product> getProduct() {
-        ArrayList<Product> productList = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/products.csv"))) {
-            br.readLine(); // skip header
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split("\\|");
-
-                if (parts.length < 4) continue;
-
-                String sku = parts[0];
-                String name = parts[1];
-                double price = Double.parseDouble(parts[2]);
-                String department = parts[3];
-
-                Product p = new Product(sku, name, price, department);
-                productList.add(p);
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading file: " + e.getMessage());
-        }
-
-        return productList;
+    
     }
-   /* public static ArrayList<Product> getProduct() {
+   public static ArrayList<Product> getProduct() {
         ArrayList<Product> product = new ArrayList<Product>();
 
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/products.csv"))) {
@@ -85,7 +61,7 @@ public class OnlineStoreApp {
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
-        return product;*/
+        return product;
     }
 
 
